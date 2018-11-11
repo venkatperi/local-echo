@@ -1,25 +1,37 @@
-var path = require("path");
-var webpack = require("webpack");
+const path = require( 'path' )
+const webpack = require( 'webpack' )
+const { webpackHelper } = require( '@venkatperi/webpack-helper' )
+const pkg = require( './package.json' )
 
-module.exports = {
-  entry: "./index.js",
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "local-echo.js",
-    library: "LocalEchoController",
-    libraryExport: "default"
-  },
-  mode: 'production',
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        loader: "babel-loader"
-      }
-    ]
-  },
-  stats: {
-    colors: true
-  },
-  devtool: "source-map"
-};
+const cwd = __dirname
+let buildDir = 'dist'
+
+const modules = {
+  mode: true,
+  vue: true,
+  ts: true,
+  miniExtractCss: true,
+  optimizeCss: true,
+  style: true,
+  img: true,
+  ext: true,
+  devServer: true,
+  misc: true,
+  dev: true,
+  prod: true,
+}
+
+const variants = [
+  'cjs',
+  'umd',
+]
+
+module.exports = webpackHelper( variants, modules, cwd, buildDir, webpack, ( config ) => {
+  config
+    .entry( 'xterm-local-echo' )
+    .add( './src/index.ts' )
+
+  config.output
+    .path( path.resolve( __dirname, './dist' ) );
+} )
+
