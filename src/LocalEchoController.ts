@@ -143,6 +143,8 @@ export default class LocalEchoController {
      */
     public read(prompt: string, continuationPrompt = "> "): Promise<string> {
         return new Promise((resolve, reject) => {
+            if (this._cursor)
+                this.term.writeln('')
             this.term.write(prompt);
             this._activePrompt = {
                 prompt, continuationPrompt, resolve, reject
